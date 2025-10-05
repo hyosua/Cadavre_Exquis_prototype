@@ -1,0 +1,130 @@
+1) Choix d’architecture (simple & robuste)
+
+État minimal :
+
+peekPrev (booléen) : est-ce qu’on révèle le texte de l’avant-dernier ?
+
+CSS fait l’essentiel :
+
+Par défaut, on compacte tous les .listItem sauf le dernier (texte masqué).
+
+Si un item a la classe .peek, on ré-affiche son texte (c’est donc l’avant-dernier).
+
+Pourquoi CSS ? → Tu ne touches pas au contenu, tu ajoutes/retiras juste des classes. C’est stable même si tu ajoutes/supprimes des éléments.
+
+2) Stratégie concrète
+
+Dans chaque <li>, enveloppe le texte dans <span class="txt">…</span> (un seul span).
+
+Ajoute un bouton unique “Voir/Masquer précédent” que tu déplaces toujours sur le dernier <li>.
+
+À chaque add/delete, appelle un orchestrateur qui :
+
+Met/retire le bouton sur le dernier.
+
+Applique la compaction (tout sauf le dernier compacté).
+
+Si peekPrev === true et qu’il existe un avant-dernier, lui ajoute .peek.
+
+3) Indices CSS (sans tout te donner)
+
+Tu veux des blocs visibles, pas le texte. Deux options très simples :
+
+Option A (placeholders …)
+
+/* Compacter tous sauf le dernier */
+.compacted .listItem:not(:last-child) .txt {
+  color: transparent;             /* cache le texte */
+  position: relative;
+}
+.compacted .listItem:not(:last-child) .txt::before {
+  content: '…';                   /* affiche … comme placeholder */
+  position: absolute; left: 0; top: 0;
+  color: #888;
+}
+/* Révéler UNIQUEMENT l'avant-dernier lorsqu'il a .peek */
+.compacted .listItem.peek .txt {
+  color: inherit;
+}
+.compacted .listItem.peek .txt::before {
+  content: none;
+}
+
+
+Option B (flou)
+
+.compacted .listItem:not(:last-child) .txt { filter: blur(6px); }
+.compacted .listItem.peek .txt { filter: none; }
+
+
+À toi de choisir — A donne un vrai “…” visuel, B est encore plus simple.
+
+4) Micro-squelettes JS (guidage, pas de solution complète)
+
+État + helpers
+
+let peekPrev = false;        // révèler l'avant-dernier ?
+const applyCompaction = () => {
+  ul.classList.add('compacted');                 // toujours compacté
+  // retire toute ancienne "peek"
+  ul.querySelectorAll('.listItem.peek').forEach(li => li.classList.remove('peek'));
+  // si demandé et s'il y a >= 2 items, on marque l'avant-dernier
+  if (peekPrev && ul.childElementCount >= 2) {
+    ul.children[ul.childElementCount - 2].classList.add('peek');
+  }
+};
+
+const moveControlsToLast = () => {
+  const last = ul.lastElementChild;
+  // 0/1 item : logique du bouton à désactiver/masquer
+  if (!last) return;
+  // assure-toi que seul le dernier a les boutons (delete + toggle)
+  // (idée : retirer les anciens boutons si présents ailleurs, puis append ici)
+};
+
+
+Bouton toggle (unique)
+
+toggleBtn.addEventListener('click', () => {
+  // si < 2 items, rien à révéler
+  if (ul.childElementCount < 2) return;
+  peekPrev = !peekPrev;      // inverse l’état
+  applyCompaction();         // ré-applique les classes
+  // met à jour le libellé : "Voir précédent" / "Masquer précédent"
+});
+
+
+Cycle de vie (à appeler après add/delete)
+
+const refreshUI = () => {
+  moveControlsToLast();
+  applyCompaction();
+  // le bouton delete n’existe que sur le dernier (selon ta règle)
+};
+
+
+Note : comme seul le dernier est supprimable, ton onDelete sur le bouton delete peut directement retirer ul.lastElementChild, mettre à jour words, puis refreshUI().
+
+5) Petits pièges à éviter
+
+Ne clone pas d’<li> pour le toggle : déplace un bouton unique.
+
+Ne remplace pas textContent du <li> (sinon tu perds le bouton). Mets le texte dans .txt.
+
+Après suppression du dernier alors que peekPrev === true :
+
+soit tu gardes peekPrev tel quel (il révélera le “nouveau” avant-dernier),
+
+soit tu le remets à false. Choisis une règle et tiens-la.
+
+6) À toi 🎯
+
+Choisis Option A (placeholder …) ou Option B (flou).
+
+Ajoute le <span class="txt"> dans tes <li>.
+
+Implémente applyCompaction() + moveControlsToLast() + refreshUI() comme ci-dessus.
+
+Branche le bouton toggle (unique) sur le dernier.
+
+Si tu veux, tu me colles ta version de applyCompaction() et moveControlsToLast() et je te fais un code review ciblé (2–3 remarques max) pour t’aider à finaliser propremen
