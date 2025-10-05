@@ -1,8 +1,8 @@
 /* DOM ELEMENTS */
 const inputContainer = document.querySelector('.input-container');
-const add = document.querySelector('.add');
-const reset = document.querySelector('.reset');
-const display = document.getElementById('display');
+const addBtn = document.querySelector('.add');
+const resetBtn = document.querySelector('.reset');
+const displayPanel = document.getElementById('display');
 const wordInput = document.getElementById('input');
 const ul = document.getElementById('list');
 const errorDiv = document.querySelector('.error');
@@ -11,9 +11,9 @@ const round = document.getElementById('round');
 const revealBtn = document.querySelector('.revealBtn');
 
 /* VARIABLES GLOBALES */
-const rounds=['nom commun','adjectif','verbe', 'nom commun', 'circonstance', 'Fin'];
+const rounds=['nom commun','adjectif','verbe', 'nom commun', 'circonstance'];
 let roundIndex=0;
-const maxWords = 5;
+const maxWords = rounds.length;
 let words=[];
 
 /* BOUTONS */
@@ -48,10 +48,11 @@ showBtn.addEventListener('mouseleave', () => {
 
 revealBtn.addEventListener('click', () => {
   revealPhrase();
+  revealBtn.classList.remove('show');
 })
 
 /* ADD BY CLICK */
-add.addEventListener('click', ()=>{
+addBtn.addEventListener('click', ()=>{
   addWord();
 })
 
@@ -64,7 +65,7 @@ wordInput.addEventListener('keydown', function(e){
 })
 
 /* RESET */
-reset.addEventListener('click', ()=>{
+resetBtn.addEventListener('click', ()=>{
   roundIndex = 0;
   words=[];
   render();
@@ -75,7 +76,7 @@ reset.addEventListener('click', ()=>{
 
 /* RENDER */
 const render = () => {
-  const isRevealRound = words.length === rounds.length - 1;
+  const isRevealRound = words.length === rounds.length;
   
   clearDisplay();
   round.textContent = rounds[roundIndex];
@@ -83,11 +84,12 @@ const render = () => {
   createWords();
   }
   if(isRevealRound){
+    round.textContent = 'Final Reveal';
     wordInput.disabled = true;
-    add.disabled = true;
+    addBtn.disabled = true;
     showRevealButton();
   }else{
-    add.disabled = false;
+    addBtn.disabled = false;
     wordInput.disabled = false;
   }
   displayWordCount(words.length);
@@ -95,34 +97,35 @@ const render = () => {
 
 /* CLEAR DISPLAY */
 const clearDisplay = () => {
-  while(ul.firstChild){
-    ul.firstChild.remove();
-  }
+  ul.replaceChildren();
 }
 
 /* Create Words */
 const createWords = () => {
   words.forEach((w,idx) => {
-    const li = document.createElement('li');
-    const wordType = document.createElement('span');
-    wordType.textContent = w.type;
-    wordType.classList.add('type');
-    li.textContent= "...";
-    if(idx === words.length - 1){
-      li.textContent = w.word;
-      li.append(delBtn);
-    }else if(idx === words.length - 2){
-      li.append(showBtn);
-      li.classList.add('.')
-      li.dataset.word = w.word;
-    }
-    li.append(wordType);
-    li.classList.add('enter'); 
+    const li = createLi(w, idx, words.length);
     ul.appendChild(li);
   })
 }
 
-/* Show Error Message */
+const createLi = (wordObj, idx, lastIndex) => {
+   const li = document.createElement('li');
+    const wordType = document.createElement('span');
+    wordType.textContent = wordObj.type;
+    wordType.classList.add('type');
+    li.textContent= "...";
+    if(idx === lastIndex - 1){
+      li.textContent = wordObj.word;
+      li.append(delBtn);
+    }else if(idx === lastIndex - 2){
+      li.append(showBtn);
+      li.dataset.word = wordObj.word;
+    }
+    li.append(wordType);
+    li.classList.add('enter');
+    return li;
+}
+
 const showError = (message) => {
   wordInput.value ='';  
   errorDiv.textContent = message;
@@ -142,11 +145,6 @@ const addWord = () => {
   const word= wordInput.value.trim();
 
   if(word == ''){
-    return;
-  }
-  
-  if(words.length === maxWords){
-    showError("Le nombre de mots maximum a été atteint");
     return;
   }
 

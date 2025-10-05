@@ -10,6 +10,11 @@ body{
   font-family: Arial, sans-serif;
 }
 
+.commands {
+    display: flex;
+    justify-content: space-around;
+}
+
 .add {
     background: slateblue;
     padding: 1rem;
@@ -48,8 +53,6 @@ body{
 
 #display {
   position: relative;
-  border: .5rem solid slateblue;
-  border-radius: 1rem;
   text-align: center;
   width: 200px;
   
@@ -60,7 +63,6 @@ body{
   max-width: 500px;
   border-radius: 1rem;
   width: 100%;
-  top: calc(100% + 1rem);
   background: rgba(0,0,0,0.7);
   margin: 0;
   padding: 0;
@@ -125,8 +127,9 @@ body{
 /* INPUT DIV */
 .word-count {
   position: absolute;
-  top: calc(100% + 1rem);
-  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -2rem;
   color: green;
 }
 
