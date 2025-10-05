@@ -76,15 +76,19 @@ reset.addEventListener('click', ()=>{
 /* RENDER */
 const render = () => {
   const isRevealRound = words.length === rounds.length - 1;
-
+  
   clearDisplay();
   round.textContent = rounds[roundIndex];
   if(words.length > 0){
   createWords();
   }
   if(isRevealRound){
+    wordInput.disabled = true;
+    add.disabled = true;
     showRevealButton();
-    console.log(!!revealBtn);
+  }else{
+    add.disabled = false;
+    wordInput.disabled = false;
   }
   displayWordCount(words.length);
 }
@@ -167,7 +171,7 @@ const revealPhrase = () =>{
     li.textContent = w.word;
     li.classList.add('enter'); 
     ul.appendChild(li);
-    }, 2000 * i);
+    }, 1000  * i);
     
   })
 }

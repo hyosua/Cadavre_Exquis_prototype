@@ -51,53 +51,37 @@ body{
   border: .5rem solid slateblue;
   border-radius: 1rem;
   text-align: center;
+  width: 200px;
+  
 }
 
 #list {
   position: absolute;
-  display: flex;
-
   max-width: 500px;
   border-radius: 1rem;
   width: 100%;
   top: calc(100% + 1rem);
   background: rgba(0,0,0,0.7);
   margin: 0;
-  padding: 0;  
+  padding: 0;
+  
 }
 
 #list li {
   list-style: none;
-  display: flex;
   color: white;
   border-bottom: solid 1px rgba(255,255,255,0.3);
   width: 100%;
   padding: 1rem;
   transition: all .3s;
-  opacity: 0;
-  position: relative;  
-}
-
-#list li.enter {
-    animation: slideDown .35s ease-out forwards;
-
-}
-
-@keyframes dropIn {
-  from {
-    opacity: 0;
-    transform: translateY(-12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  position: relative;
+  animation: slideDown .35s ease-out;
 }
 
 @keyframes slideDown {
-    0% { opacity: 0; transform: translateY(-50%) scale(.9) }
-    60% { opacity:1; transform:scale(1.03) }
-    100% { opacity: 1; transform: translateY(0) scale(1);}
+    0% { opacity: 0; transform: translateY(-20px) scale(0.8);}
+    60% { opacity: 1; transform: translateY(0px) scale(1.13);}
+    100% { opacity: 1; transform: translateY(0px) scale(1);}
 }
 
  .actionBtn {
@@ -158,10 +142,10 @@ body{
   font-size: 1rem;
   outline: none;
   transition: all .06s;
-  
-    &:focus{
-  border: 4px solid slateblue;
-  }
+}
+
+#input:focus{
+border: 4px solid slateblue;
 }
 
 .hidden {
