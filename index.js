@@ -1,5 +1,8 @@
 import { CONFIG } from './constants.js'
-import { STATE } from './state.js';
+import { GameModel } from './GameModel.js';
+
+/* Modèle */
+const model = new GameModel();
 
 /* DOM ELEMENTS */
 const inputContainer = document.querySelector('.input-container');
@@ -24,8 +27,7 @@ showBtn.textContent = '👁️';
 
 /* MOUSE EVENTS */
 delBtn.addEventListener("click", () => {
-  STATE.words.pop();
-  CONFIG.roundIndex--;
+  model.removeLastWord();
   render();
 })
 
@@ -64,8 +66,7 @@ wordInput.addEventListener('keydown', function(e){
 
 /* RESET */
 resetBtn.addEventListener('click', ()=>{
-  STATE.roundIndex = 0;
-  STATE.words=[];
+  model.reset();
   render();
 })
 
@@ -73,15 +74,15 @@ resetBtn.addEventListener('click', ()=>{
 /* FUNCTIONS */
 
 const render = () => {
-  const isRevealRound = STATE.words.length === CONFIG.rounds.length;
+  const state = model.getState();
   
   clearDisplay();
-  round.textContent = CONFIG.rounds[STATE.roundIndex];
-  displayPlayerName(STATE.roundIndex);
-  if(STATE.words.length > 0){
-  createWords(STATE.words);
+  round.textContent = state.currentRound;
+  displayPlayerName(state.currentRoundIndex);
+  if(state.wordCount > 0){
+  createWords(state.wordList);
   }
-  if(isRevealRound){
+  if(state.isCompleted){
     round.textContent = 'Final Reveal';
     wordInput.disabled = true;
     addBtn.disabled = true;
@@ -90,7 +91,8 @@ const render = () => {
     addBtn.disabled = false;
     wordInput.disabled = false;
   }
-  displayWordCount(STATE.words.length);
+  console.log("Model state:", state)
+  displayWordCount(state.wordCount, state.maxWords);
 }
 
 const clearDisplay = () => {
@@ -130,9 +132,9 @@ const showError = (message) => {
   setTimeout(() => errorDiv.classList.remove('active'), 4000);
 }
 
-const displayWordCount = (count) => {
-  countDiv.innerHTML = `${count}/${STATE.maxWords}`;
-  countDiv.style.color = count === STATE.maxWords ? 'red' : 'green';
+const displayWordCount = (count, max) => {
+  countDiv.innerHTML = `${count}/${max}`;
+  countDiv.style.color = count === max ? 'red' : 'green';
 }
 
 const displayPlayerName = (roundIndex) => {
@@ -143,23 +145,21 @@ const displayPlayerName = (roundIndex) => {
     const yourTurn = document.createElement('span');
 
     playerName.classList.add('playerName');
-    playerName.textContent = CONFIG.players[roundIndex];
+    playerName.textContent = model.players[roundIndex];
     yourTurn.textContent = " à toi de jouer!"
     playerRound.append(playerName, yourTurn);
   }
 }
 
 const addWord = () => {
-  const word= wordInput.value.trim();
-
-  if(word == ''){
+  const word = wordInput.value.trim();
+  const ok = model.addWord(word);
+  console.log("model.addword:",ok)
+  if(!ok){
     return;
   }
-
-  STATE.words.push({word: word, type: round.textContent});
   wordInput.value='';
   wordInput.focus();
-  STATE.roundIndex++;
   render();
 }
 
@@ -169,7 +169,8 @@ const showRevealButton = () => {
 
 const revealPhrase = () =>{
   clearDisplay();
-  STATE.words.forEach((w,i) => {
+  const {wordList} = model.getState();
+  wordList.forEach((w,i) => {
     setTimeout(()=>{
     const li = document.createElement('li');
     li.textContent = w.word;
