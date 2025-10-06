@@ -64,7 +64,7 @@ wordInput.addEventListener('keydown', function(e){
 
 /* RESET */
 resetBtn.addEventListener('click', ()=>{
-  CONFIG.roundIndex = 0;
+  STATE.roundIndex = 0;
   STATE.words=[];
   render();
 })
