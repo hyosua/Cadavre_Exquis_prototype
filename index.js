@@ -1,3 +1,6 @@
+import { CONFIG } from './constants.js'
+import { STATE } from './state.js';
+
 /* DOM ELEMENTS */
 const inputContainer = document.querySelector('.input-container');
 const addBtn = document.querySelector('.add');
@@ -10,11 +13,6 @@ const countDiv = document.querySelector('.word-count');
 const round = document.getElementById('round');
 const revealBtn = document.querySelector('.revealBtn');
 
-/* VARIABLES GLOBALES */
-const rounds=['nom commun','adjectif','verbe', 'nom commun', 'circonstance'];
-let roundIndex=0;
-const maxWords = rounds.length;
-let words=[];
 
 /* BOUTONS */
 const showBtn = document.createElement('button');
@@ -26,8 +24,8 @@ showBtn.textContent = '👁️';
 
 /* MOUSE EVENTS */
 delBtn.addEventListener("click", () => {
-  words.pop();
-  roundIndex--;
+  STATE.words.pop();
+  CONFIG.roundIndex--;
   render();
 })
 
@@ -66,22 +64,22 @@ wordInput.addEventListener('keydown', function(e){
 
 /* RESET */
 resetBtn.addEventListener('click', ()=>{
-  roundIndex = 0;
-  words=[];
+  CONFIG.roundIndex = 0;
+  STATE.words=[];
   render();
 })
 
 
 /* FUNCTIONS */
 
-/* RENDER */
 const render = () => {
-  const isRevealRound = words.length === rounds.length;
+  const isRevealRound = STATE.words.length === CONFIG.rounds.length;
   
   clearDisplay();
-  round.textContent = rounds[roundIndex];
-  if(words.length > 0){
-  createWords();
+  round.textContent = CONFIG.rounds[STATE.roundIndex];
+  displayPlayerName(STATE.roundIndex);
+  if(STATE.words.length > 0){
+  createWords(STATE.words);
   }
   if(isRevealRound){
     round.textContent = 'Final Reveal';
@@ -92,16 +90,15 @@ const render = () => {
     addBtn.disabled = false;
     wordInput.disabled = false;
   }
-  displayWordCount(words.length);
+  displayWordCount(STATE.words.length);
 }
 
-/* CLEAR DISPLAY */
 const clearDisplay = () => {
   ul.replaceChildren();
+
 }
 
-/* Create Words */
-const createWords = () => {
+const createWords = (words) => {
   words.forEach((w,idx) => {
     const li = createLi(w, idx, words.length);
     ul.appendChild(li);
@@ -133,14 +130,25 @@ const showError = (message) => {
   setTimeout(() => errorDiv.classList.remove('active'), 4000);
 }
 
-/* Afficher COMPTEUR DE MOTS */
 const displayWordCount = (count) => {
-  countDiv.innerHTML = `${count}/${maxWords}`;
-  countDiv.style.color = count === maxWords ? 'red' : 'green';
+  countDiv.innerHTML = `${count}/${STATE.maxWords}`;
+  countDiv.style.color = count === STATE.maxWords ? 'red' : 'green';
 }
 
+const displayPlayerName = (roundIndex) => {
+  const playerRound = document.getElementById('playerRound');
+    playerRound.replaceChildren();
+  if(roundIndex < CONFIG.rounds.length){
+    const playerName = document.createElement('span');
+    const yourTurn = document.createElement('span');
 
-/* AJOUTER UN MOT */
+    playerName.classList.add('playerName');
+    playerName.textContent = CONFIG.players[roundIndex];
+    yourTurn.textContent = " à toi de jouer!"
+    playerRound.append(playerName, yourTurn);
+  }
+}
+
 const addWord = () => {
   const word= wordInput.value.trim();
 
@@ -148,22 +156,20 @@ const addWord = () => {
     return;
   }
 
-words.push({word: word, type: round.textContent});
+  STATE.words.push({word: word, type: round.textContent});
   wordInput.value='';
   wordInput.focus();
-  roundIndex++;
+  STATE.roundIndex++;
   render();
 }
 
-/* MONTRER LE REVEAL BUTTON */
 const showRevealButton = () => {
   revealBtn.classList.add('show');
 }
 
-/* REVELER LA PHRASE */
 const revealPhrase = () =>{
   clearDisplay();
-  words.forEach((w,i) => {
+  STATE.words.forEach((w,i) => {
     setTimeout(()=>{
     const li = document.createElement('li');
     li.textContent = w.word;

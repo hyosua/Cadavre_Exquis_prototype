@@ -86,21 +86,27 @@ body{
     100% { opacity: 1; transform: translateY(0px) scale(1);}
 }
 
+@keyframes bounceIn {
+    0% { opacity: 0;transform: scale(0.8);}
+    60% { opacity: 1;transform: scale(1.13);}
+    100% { opacity: 1;transform: scale(1);}
+}
  .actionBtn {
-  position: absolute;
-  transform: translateY(-50%);
-  top: 50%;
-  right: 1rem;
-  border-radius: 50%;
-   padding: .5rem;
-   border: none;
-   background: rgba(255,255,255,0.1);
-   transition: all .1s;
-   cursor: pointer;
+    position: absolute;
+    right: -0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: .5rem;
+    border-radius: 50%;
+    padding: .5rem;
+    border: none;
+    background: rgba(81, 40, 245, 0.4);
+    transition: all .1s;
+    cursor: pointer;
 }
 
 .actionBtn:hover {
-    background: rgba(255,255,255,0.2);
+    background: rgba(0,0,0,0.3);
 }
 
 .error{
@@ -124,13 +130,28 @@ body{
     visibility: visible;
 }
 
-/* INPUT DIV */
+/* TEXT INPUT DIV */
 .word-count {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   right: -2rem;
   color: green;
+}
+
+#playerRound {
+    text-align: center;
+    font-weight: 900;
+}
+
+.playerName {
+    font-size: 1.5rem;
+    color: white;
+    background: coral;
+    padding: .5rem;
+    margin-right: .5rem;
+    border-radius: .5rem;
+    animation: bounceIn 0.35s ease;
 }
 
 .input-wrap {
