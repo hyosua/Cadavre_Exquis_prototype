@@ -176,9 +176,6 @@ border: 4px solid slateblue;
   display: none;
 }
 
-.revealBtn.show {
-  display: inline-block;
-}
 
 .round {
   margin:1rem;
@@ -198,7 +195,7 @@ border: 4px solid slateblue;
   font-weight: 600;
 }
 
-.revealBtn {
+.readyBtn {
   position: absolute;
   top: 0;
   left: calc(100% + 2rem);
@@ -214,7 +211,12 @@ border: 4px solid slateblue;
 
 }
 
-.revealBtn:hover{
+.readyBtn.show {
+  display: inline-block;
+}
+
+
+.readyBtn:hover{
   background-color: darkslateblue;
   border-color: darkslateblue;
   font-weight: 900;

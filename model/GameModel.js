@@ -1,4 +1,4 @@
-import { CONFIG } from "./constants.js";
+import { CONFIG } from "../config/constants.js";
 
 export class GameModel  {
     constructor() {
@@ -12,7 +12,7 @@ export class GameModel  {
 
     getState(){
         return {
-            wordList: [...this.words],
+            words: [...this.words],
             currentRound: this.rounds[this.roundIndex],
             currentPlayer: this.players[this.roundIndex],
             currentRoundIndex: this.roundIndex,
@@ -27,23 +27,25 @@ export class GameModel  {
     }
 
     addWord(word) {
-        if(!word || word.trim() == ''){
-            return false;
-        }
+        let message = '';
+        let success = true;
 
         if(this.isGameCompleted()){
-            return false;
+            success = false;
+            message = "Fin de partie"
         }
 
         const wordObj = {
             word: word.trim(),
-            type: this.currentRound
+            type: this.rounds[this.roundIndex]
         }
 
         this.words.push(wordObj)
-        this.roundIndex++;
+        if(this.roundIndex < this.rounds.length){
+            this.roundIndex++;
+        }
 
-        return true;
+        return {success, message};
     }
     
     removeLastWord() {
