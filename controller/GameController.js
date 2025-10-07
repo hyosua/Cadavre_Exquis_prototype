@@ -12,13 +12,15 @@ export class GameController {
     _updateView(){
         this.view.clearDisplay();
         const state = this.model.getState();
+                console.log("state:",state)
+        this.view.displayWordcount(state.wordCount, state.maxWords);
 
         // Afficher Le type de mot à entrer et à qui le tour
         this.view.displayRoundType(state.currentRound);
         this.handlePlayerName(state.currentPlayer);
+        
         //Afficher les mots
         if(state.wordCount>0){
-            this.view.displayWordcount(state.wordCount, state.maxWords);
             state.words.forEach((wordObj,index) => {
                 this.view.displayWord(
                     wordObj.word, 

@@ -39,6 +39,7 @@
         this.elements.ulWordlist.replaceChildren();
     }
 
+
     displayWord(word, type, index, totalWords) {
         const li = document.createElement('li');
         li.textContent = '...';
@@ -57,17 +58,6 @@
             delBtn.textContent = '❌';
             delBtn.addEventListener('click', () => this.handleRemoveLastWord());
             li.append(delBtn);
-        }
-        //Bouton show sur le mot précédant
-        if(index == totalWords - 2){
-            li.textContent = word;
-            const showBtn = document.createElement("button");
-            showBtn.classList.add('actionBtn');
-            showBtn.textContent = '👁️';
-            showBtn.addEventListener('click', () => {
-                li.textContent = li.textContent === '...' ? word : '...';
-            });
-            li.append(showBtn);
         }
 
         li.append(wordType);
@@ -93,12 +83,13 @@
     }
 
     hidePlayername(){
-        this.elements.playerRound.replaceChildren();
+        // this.elements.playerName.textContent='';
     }
 
     showFinishInfo(){
         this.elements.round.textContent = 'Phrase Terminée'
-        this.elements.playerRound.textContent = 'Cliquez sur Ready pour continuer';
+        this.elements.playerName.classList.add("hidden")
+        this.elements.yourTurn.textContent='Cliquez sur Ready pour continuer'
     }
 
     displayReadyButton(){
@@ -141,6 +132,14 @@
         this.elements.addBtn.disabled = false;
     }
 
+    resetView(){
+        this.elements.readyButton.classList.remove("show");
+        this.elements.playerName.classList.remove("hidden");
+        this.elements.yourTurn.textContent = ", à ton tour!"
+        this.elements.wordInput.value = '';
+        this.enableInput();
+    }
+
     handleAddWord(){
         const word = this.elements.wordInput.value.trim();
         const inputField = this.elements.wordInput;
@@ -165,6 +164,7 @@
 
     handleReset(){
         this.controller.handleReset();
+        this.resetView();
     }
 
 }
