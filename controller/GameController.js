@@ -5,6 +5,7 @@ export class GameController {
     constructor(){
         this.model = new GameModel;
         this.view = new GameView(this);
+
         this._updateView();
     }
 
@@ -17,7 +18,7 @@ export class GameController {
 
         // Afficher Le type de mot à entrer et à qui le tour
         this.view.displayRoundType(state.currentRound);
-        this.handlePlayerName(state.currentPlayer);
+        this.handlePlayerName(state.currentPlayer, state.currentColor);
         
         //Afficher les mots
         if(state.wordCount>0){
@@ -64,13 +65,12 @@ export class GameController {
         return this.model.words;
     }
 
-    handlePlayerName(currentPlayer){
+    handlePlayerName(currentPlayer, color){
         //si la partie est en cours, on affiche à qui le tour
         if( this.model.isGameCompleted() ){
-            this.view.hidePlayername();
             this.view.showFinishInfo();
         }else{
-            this.view.displayPlayerName(currentPlayer);
+            this.view.displayPlayerName(currentPlayer, color);
         }
     }
 }

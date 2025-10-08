@@ -1,4 +1,5 @@
- import { GameController } from "../controller/GameController.js";
+ import { CONFIG } from "../config/constants.js";
+import { GameController } from "../controller/GameController.js";
  import { Word } from "./components/Word.js";
 
  export class GameView{
@@ -65,8 +66,9 @@
         this.elements.countDiv.style.color = count === max ? 'red' : 'green'; 
     }
 
-    displayPlayerName(name){
+    displayPlayerName(name, color){
         this.elements.playerName.textContent = name;
+        this.elements.playerName.style.backgroundColor = color;
     }
 
     hidePlayername(){

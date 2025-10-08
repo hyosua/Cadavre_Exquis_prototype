@@ -6,6 +6,7 @@ body{
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #e5e5e5;
   justify-content: center;
   font-family: Arial, sans-serif;
 }
@@ -147,7 +148,6 @@ body{
 .playerName {
     font-size: 1.5rem;
     color: white;
-    background: coral;
     padding: .5rem;
     margin-right: .5rem;
     border-radius: .5rem;

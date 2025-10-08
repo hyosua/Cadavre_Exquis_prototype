@@ -6,6 +6,7 @@ export class GameModel  {
         this.roundIndex = 0;
         this.rounds = CONFIG.rounds;
         this.players = CONFIG.players;
+        this.colors = CONFIG.colors;
         this.maxWords = this.rounds.length;
     }
     
@@ -15,6 +16,7 @@ export class GameModel  {
             words: [...this.words],
             currentRound: this.rounds[this.roundIndex],
             currentPlayer: this.players[this.roundIndex],
+            currentColor: this.colors[this.roundIndex],
             currentRoundIndex: this.roundIndex,
             maxWords: this.maxWords,
             wordCount: this.words.length,
