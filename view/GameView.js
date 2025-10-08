@@ -1,10 +1,11 @@
  import { GameController } from "../controller/GameController.js";
- 
+ import { Word } from "./components/Word.js";
+
  export class GameView{
     constructor(GameController){
         this.controller = GameController;
         this.elements = this.getElements();
-        
+        this.word = new Word()
         this._bindEvents();
     }
  
@@ -41,29 +42,15 @@
 
 
     displayWord(word, type, index, totalWords) {
-        const li = document.createElement('li');
-        li.textContent = '...';
-        li.dataset.type = type;
-
-        // On affiche à coté du mot le type correspondant au tour (Nom, Adj,...)
-        const wordType = document.createElement('span');
-        wordType.textContent = type;
-        wordType.classList.add('type');
-
-        //Bouton delete sur le dernier mot
-        if(index == totalWords - 1){
-            li.textContent = word;
-            const delBtn = document.createElement("button");
-            delBtn.classList.add('actionBtn');
-            delBtn.textContent = '❌';
-            delBtn.addEventListener('click', () => this.handleRemoveLastWord());
-            li.append(delBtn);
-        }
-
-        li.append(wordType);
-        li.classList.add('enter');
+        const wordObj = new Word(
+            word, 
+            type, 
+            index, 
+            totalWords,
+            this.handleRemoveLastWord.bind(this)
+        );
         // Ajouter le mot à la liste (ul)
-        this.elements.ulWordlist.appendChild(li);
+        this.elements.ulWordlist.appendChild(wordObj.createWord());
     }
 
     displayMessage(message) {
