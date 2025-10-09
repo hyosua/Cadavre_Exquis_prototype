@@ -5,8 +5,7 @@ export class GameModel  {
         this.words = [];
         this.roundIndex = 0;
         this.rounds = CONFIG.rounds;
-        this.players = CONFIG.players;
-        this.colors = CONFIG.colors;
+        this.players = this.assignColor(CONFIG.players, CONFIG.colors);
         this.maxWords = this.rounds.length;
     }
     
@@ -16,7 +15,7 @@ export class GameModel  {
             words: [...this.words],
             currentRound: this.rounds[this.roundIndex],
             currentPlayer: this.players[this.roundIndex],
-            currentColor: this.colors[this.roundIndex],
+            previousPlayer: this.players[(this.roundIndex - 1) || 0],
             currentRoundIndex: this.roundIndex,
             maxWords: this.maxWords,
             wordCount: this.words.length,
@@ -29,25 +28,23 @@ export class GameModel  {
     }
 
     addWord(word) {
-        let message = '';
-        let success = true;
 
         if(this.isGameCompleted()){
-            success = false;
-            message = "Fin de partie"
+            return {
+                success: false,
+                message: "Fin de partie"
+            }
         }
 
         const wordObj = {
             word: word.trim(),
-            type: this.rounds[this.roundIndex]
+            type: this.rounds[this.roundIndex],
+            player: this.players[this.roundIndex],
         }
 
         this.words.push(wordObj)
-        if(this.roundIndex < this.rounds.length){
-            this.roundIndex++;
-        }
 
-        return {success, message};
+        return {success: true, message: `${word} added`};
     }
     
     removeLastWord() {
@@ -59,5 +56,26 @@ export class GameModel  {
         this.roundIndex = 0;
         this.words = [];
     }
+
+    assignColor(players, colors){
+        const playersByColor = [];
+
+        for(let i=0; i < players.length; i++){
+            const player = {
+                username : players[i],
+                color : colors[i]
+            }
+            playersByColor.push(player);
+        }
+        
+        return playersByColor;
+    }
+
+    nextRound(){
+        if(this.roundIndex < this.rounds.length){
+            this.roundIndex++;
+        }
+    }
+
 }
 

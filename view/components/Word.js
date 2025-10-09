@@ -1,11 +1,12 @@
 export class Word{
 
-    constructor(word, type, index, totalWords, handleRemoveLastWord) {
+    constructor(word, type, index, totalWords, handleRemoveLastWord, player) {
         this.word = word;
         this.type = type;
         this.index = index;
         this.totalWords = totalWords;
         this.handleRemoveLastWord = handleRemoveLastWord;
+        this.player = player;
     }
 
     createLi(){
@@ -13,6 +14,7 @@ export class Word{
         // masquer les mots précédants
         li.textContent = '...';
         li.dataset.type = this.type;
+        li.style.backgroundColor = this.player.color;
         li.classList.add('enter');
 
         return li;

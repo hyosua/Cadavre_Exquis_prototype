@@ -5,7 +5,7 @@ export class GameController {
     constructor(){
         this.model = new GameModel;
         this.view = new GameView(this);
-
+        
         this._updateView();
     }
 
@@ -13,12 +13,12 @@ export class GameController {
     _updateView(){
         this.view.clearDisplay();
         const state = this.model.getState();
-                console.log("state:",state)
+        console.log("state:",state)
         this.view.displayWordcount(state.wordCount, state.maxWords);
 
         // Afficher Le type de mot à entrer et à qui le tour
         this.view.displayRoundType(state.currentRound);
-        this.handlePlayerName(state.currentPlayer, state.currentColor);
+        this.handlePlayerDisplay(state.currentPlayer);
         
         //Afficher les mots
         if(state.wordCount>0){
@@ -26,8 +26,9 @@ export class GameController {
                 this.view.displayWord(
                     wordObj.word, 
                     wordObj.type,
+                    wordObj.player,
                     index,
-                    state.words.length
+                    state.words.length,
                 );
             });
         }
@@ -37,18 +38,19 @@ export class GameController {
             this.view.disableInput();
             this.view.displayReadyButton();
         }else{
-            this.view.enableInput();
+            this.view.resetView();
         }
     }
 
     handleAddWord(word) {
         const result = this.model.addWord(word);
         if(result.success){
-            this.view.displayWord();
+            this.model.nextRound();
+            this._updateView();
         }else{
+            this.view.disableInput();
             this.view.displayMessage(result.message);
         }
-        this._updateView();
     }
 
     handleRemoveLastWord(){
@@ -65,12 +67,13 @@ export class GameController {
         return this.model.words;
     }
 
-    handlePlayerName(currentPlayer, color){
+    handlePlayerDisplay(currentPlayer){
         //si la partie est en cours, on affiche à qui le tour
         if( this.model.isGameCompleted() ){
             this.view.showFinishInfo();
         }else{
-            this.view.displayPlayerName(currentPlayer, color);
+            this.view.displayPlayerName(currentPlayer);
         }
     }
+
 }

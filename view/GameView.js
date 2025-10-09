@@ -42,16 +42,20 @@ import { GameController } from "../controller/GameController.js";
     }
 
 
-    displayWord(word, type, index, totalWords) {
+    displayWord(word, type, player, index, totalWords) {
+        console.log(word, type, player);
         const wordObj = new Word(
             word, 
             type, 
             index, 
             totalWords,
-            this.handleRemoveLastWord.bind(this)
+            this.handleRemoveLastWord.bind(this),
+            player
         );
+        const li = wordObj.createWord();
+
         // Ajouter le mot à la liste (ul)
-        this.elements.ulWordlist.appendChild(wordObj.createWord());
+        this.elements.ulWordlist.appendChild(li);
     }
 
     displayMessage(message) {
@@ -66,9 +70,9 @@ import { GameController } from "../controller/GameController.js";
         this.elements.countDiv.style.color = count === max ? 'red' : 'green'; 
     }
 
-    displayPlayerName(name, color){
-        this.elements.playerName.textContent = name;
-        this.elements.playerName.style.backgroundColor = color;
+    displayPlayerName(playerObj){
+        this.elements.playerName.textContent = playerObj.username;
+        this.elements.playerName.style.backgroundColor = playerObj.color;
     }
 
     hidePlayername(){
@@ -114,6 +118,7 @@ import { GameController } from "../controller/GameController.js";
     disableInput(){
         this.elements.wordInput.disabled = true;
         this.elements.addBtn.disabled = true;
+        this.elements.addBtn.style.backgroundColor = 'lightgrey';
     }
 
     enableInput(){
