@@ -101,6 +101,8 @@ import { GameController } from "../controller/GameController.js";
             setTimeout(()=>{
                 const li = document.createElement('li');
                 li.textContent = wordObj.word;
+                console.log("displayFinalPhrase, player:", wordObj.player)
+                li.style.backgroundColor = wordObj.player.color;
                 li.classList.add('enter');
                 this.elements.ulWordlist.append(li);
             }, 1000 * i)
