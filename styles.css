@@ -1,3 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Flavors&family=Unbounded:wght@200..900&display=swap');
+:root {
+  --base-300: oklch(91% 0.096 180.426);
+  --base-200: oklch(95% 0.051 180.801);
+  --base-100: #effcf9;
+  --secondary: oklch(76% 0.177 163.223);
+  --primary: oklch(70% 0.183 293.541);
+  --neutral: oklch(51% 0.096 186.391);
+  --neutral-hover: oklch(0.322 0.096 186.4);
+  --accent: oklch(25% 0.092 26.042);
+  --success: oklch(84% 0.238 128.85);
+  --info: oklch(70% 0.165 254.624);
+  --error: oklch(71% 0.202 349.761);
+  --warning: oklch(85% 0.199 91.936);
+}
+
 *{
   box-sizing: border-box;
 }
@@ -6,7 +22,7 @@ body{
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #e5e5e5;
+  background: var(--base-200);
   justify-content: center;
   font-family: Arial, sans-serif;
 }
@@ -222,4 +238,133 @@ border: 4px solid slateblue;
   font-weight: 900;
   transform: scale(0.95);
   color: white;
+}
+
+#playerList {
+  margin-top: 1rem;
+  padding: 0;
+  font-size: 1.3rem;
+  width: 100%;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.playerLi {
+  color: white;
+  padding: .3rem;
+  border-radius: .3rem;
+  font-weight: 800;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.playersContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 1rem;
+  width: 60%;
+  background-color: var(--base-100);
+  border: 1px solid var(--base-300);
+}
+
+#setupview {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.playerInput {
+  border: 1px solid var(--base-300);
+  padding: .5rem;
+  background: var(--base-100);
+
+}
+
+.addPlayer-wrap{
+  border-radius: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.addPlayer{
+  position: absolute;
+  height: 100%;
+  right: 0;
+  background: var(--neutral);
+  color: white;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.addPlayer:hover{
+  background: var(--neutral-hover);
+}
+
+.addPlayer:active{
+  transform: scale(0.90);
+}
+
+h1 {
+  font-size: 4rem;
+  font-family: "Flavors", cursive;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--error);
+  text-align: center;
+}
+
+label {
+  color: var(--neutral);
+  font-weight: 800;
+}
+
+.i{
+  color: white;
+}
+
+.setupContainer {
+  background: var(--base-100);
+  border: 1px solid var(--base-300);
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.startGame {
+  border-radius: .3rem;
+  padding: .5rem;
+  background: var(--neutral);
+  color: white;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.addPlayer:hover{
+  background: var(--neutral-hover);
+}
+
+.addPlayer:active{
+  transform: scale(0.90);
+}
+
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    font-size: 3rem;
+  }
 }

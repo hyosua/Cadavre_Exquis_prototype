@@ -7,29 +7,57 @@
     <title>Kadavexki</title>
 </head>
 <body>
-  <!-- INPUT -->
-  <div class="input-container">
+  <h1>Cadavre Exquis</h1>
+  <section id="setupview">
+    <div class="setupContainer">
+      <div class="addPlayer-wrap">
+        <label>
+          Joueur
+        <input type="text" class="playerInput" id="playerInput"/>
+        </label>
+        <button id="add-player" class="addPlayer">Add</button>
+      </div>
+
+      <ul id="playerList">
+        
+      </ul>
+      
+      <button id="start-game" class="startGame">Start</button>
+      
+      
+    </div>
+    
+  </section>
+
+  <section id="gameview">
+    <div class="gameContainer">
+      <!-- INPUT -->
+      <div class="input-container">
         <p id="playerRound"><span class="playerName"></span><span id="yourTurn">, à ton tour!</span></p>
-    <h2 id="round" class="round">
-    </h2>
-    <div class="input-wrap">
-      <input type="text" id="input" />
-      <div class="word-count"></div>
+        <h2 id="round" class="round">
+        </h2>
+        <div class="input-wrap">
+          <input type="text" id="input" />
+          <div class="word-count"></div>
+        </div>
+        <div class="commands">
+          <button class="reset">Reset</button>
+          <button class="add">Add</button>
+        </div>
+      </div>
+      
+      <!-- DISPLAY -->
+      <div id="display">
+        <h2>Phrase</h2>
+        <ul id="list">
+        </ul>
+        <div class="error"></div>
+        <button class="readyBtn">Ready</button>
+      </div>
     </div>
-    <div class="commands">
-      <button class="reset">Reset</button>
-      <button class="add">Add</button>
-    </div>
-  </div>
   
-  <!-- DISPLAY -->
-  <div id="display">
-    <h2>Phrase</h2>
-    <ul id="list">
-    </ul>
-    <div class="error"></div>
-    <button class="readyBtn">Ready</button>
-  </div>
+  </section>
+
 
     <script type="module" src="index.js"></script>
 </body>

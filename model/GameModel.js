@@ -1,11 +1,11 @@
 import { CONFIG } from "../config/constants.js";
 
 export class GameModel  {
-    constructor() {
+    constructor(config) {
         this.words = [];
+        this.players = config.players || [];
         this.roundIndex = 0;
-        this.rounds = CONFIG.rounds;
-        this.players = this.assignColor(CONFIG.players, CONFIG.colors);
+        this.rounds = config.rounds;
         this.maxWords = this.rounds.length;
     }
     
@@ -30,10 +30,7 @@ export class GameModel  {
     addWord(word) {
 
         if(this.isGameCompleted()){
-            return {
-                success: false,
-                message: "Fin de partie"
-            }
+            return false;
         }
 
         const wordObj = {
@@ -43,8 +40,9 @@ export class GameModel  {
         }
 
         this.words.push(wordObj)
+        this.nextRound();
 
-        return {success: true, message: `${word} added`};
+        return true;
     }
     
     removeLastWord() {
@@ -57,19 +55,7 @@ export class GameModel  {
         this.words = [];
     }
 
-    assignColor(players, colors){
-        const playersByColor = [];
-
-        for(let i=0; i < players.length; i++){
-            const player = {
-                username : players[i],
-                color : colors[i]
-            }
-            playersByColor.push(player);
-        }
-        
-        return playersByColor;
-    }
+    
 
     nextRound(){
         if(this.roundIndex < this.rounds.length){

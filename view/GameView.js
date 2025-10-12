@@ -3,8 +3,12 @@ import { GameController } from "../controller/GameController.js";
  import { Word } from "./components/Word.js";
 
  export class GameView{
-    constructor(GameController){
-        this.controller = GameController;
+    constructor(){
+        // intialisation des hooks à null
+        this._onAddWordCallback = null;
+        this._onResetCallback = null;
+        this._onRevealCallback = null;
+
         this.elements = this.getElements();
         this.word = new Word()
         this._bindEvents();
@@ -33,7 +37,7 @@ import { GameController } from "../controller/GameController.js";
     _bindEvents(){
         this.elements.addBtn.addEventListener('click', () => this.handleAddWord());
         this.elements.resetBtn.addEventListener('click', ()=> this.handleReset());
-        this.elements.readyButton.addEventListener('click', ()=> this.displayFinalPhrase());
+        this.elements.readyButton.addEventListener('click', ()=> this.handleReveal());
         this.elements.wordInput.addEventListener('keydown', (e) => this.handleEnterKey(e));
     }
 
@@ -93,10 +97,10 @@ import { GameController } from "../controller/GameController.js";
         this.elements.round.textContent = currentRound;        
     }
 
-    displayFinalPhrase(){
-        const phrase = this.controller.getFinalPhrase();
+    displayFinalPhrase(phrase){
         this.elements.readyButton.classList.remove('show');
         this.clearDisplay();
+
         phrase.forEach((wordObj, i) => {
             setTimeout(()=>{
                 const li = document.createElement('li');
@@ -136,14 +140,30 @@ import { GameController } from "../controller/GameController.js";
         this.enableInput();
     }
 
+    // Hooks 
+    onAddWord(callback){
+        this._onAddWordCallback = callback;
+    }
+
+    onReset(callback){
+        this._onResetCallback = callback;
+    }
+
+    onReveal(callback){
+        this._onRevealCallback = callback;
+    }
+
     handleAddWord(){
         const word = this.elements.wordInput.value.trim();
         const inputField = this.elements.wordInput;
         if(!word || word == ''){
             return
         }
-        this.controller.handleAddWord(word);
-        inputField.value = '';
+
+        if(this._onAddWordCallback){
+            this._onAddWordCallback(word);
+        }
+
         inputField.focus();
     }
 
@@ -159,8 +179,18 @@ import { GameController } from "../controller/GameController.js";
     }
 
     handleReset(){
-        this.controller.handleReset();
+        if(this._onResetCallback){
+            this._onResetCallback();
+        }
+
         this.resetView();
     }
 
+    handleReveal(){
+
+        if(this._onRevealCallback){
+            const phrase = this._onRevealCallback();
+        }
+        this.displayFinalPhrase(phrase);
+    }
 }

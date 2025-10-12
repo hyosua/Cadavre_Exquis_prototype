@@ -1,29 +1,66 @@
+import { CONFIG } from "../config/constants.js";
 import { GameModel } from "../model/GameModel.js";
 import { GameView } from "../view/GameView.js";
+import { SetupView } from "../view/SetupView.js";
 
 export class GameController {
     constructor(){
-        this.model = new GameModel;
-        this.view = new GameView(this);
-        
-        this._updateView();
+        this.setupView = new SetupView();
+        this.gameModel = null;
+        this.gameView = null;
+
+        this.currentConfig = { ...CONFIG };
+
+        this.initSetup();
     }
 
-    // Met à jour l'interface ui
-    _updateView(){
-        this.view.clearDisplay();
-        const state = this.model.getState();
+    initSetup(){
+        this.setupView.show();
+
+        this.setupView.onStartGame((config) => {
+            this.startGame(config);
+        })
+    }
+
+    startGame(config){
+        if(config.players < 2){
+            alert("Minimum number of players: 2");
+            return
+        }
+        
+        this.setupView.hide();
+
+        //Crée le modèle avec la config personnalisée
+        this.gameModel = new GameModel(config);
+        this.gameView = new GameView();
+
+        //Initialisation du jeu
+        this.initGameListeners();
+        this._updateGameView();
+    }
+
+    initGameListeners(){
+        this.gameView.onAddWord((word) => this.handleAddWord(word));
+        this.gameView.onReset(() => this.handleReset());
+        this.gameView.onReveal(() => this.handleReveal());
+        // this.gameView.onBackToSetup(() => this.backToSetup());
+    }
+
+    // Met à jour l'interface GameView
+    _updateGameView(){
+        this.gameView.clearDisplay();
+        const state = this.gameModel.getState();
         console.log("state:",state)
-        this.view.displayWordcount(state.wordCount, state.maxWords);
+        this.gameView.displayWordcount(state.wordCount, state.maxWords);
 
         // Afficher Le type de mot à entrer et à qui le tour
-        this.view.displayRoundType(state.currentRound);
+        this.gameView.displayRoundType(state.currentRound);
         this.handlePlayerDisplay(state.currentPlayer);
         
         //Afficher les mots
         if(state.wordCount>0){
             state.words.forEach((wordObj,index) => {
-                this.view.displayWord(
+                this.gameView.displayWord(
                     wordObj.word, 
                     wordObj.type,
                     wordObj.player,
@@ -35,44 +72,55 @@ export class GameController {
         
         //Montrer le bouton READY si la phrase est terminée
         if(state.isCompleted){
-            this.view.disableInput();
-            this.view.displayReadyButton();
+            this.gameView.disableInput();
+            this.gameView.displayReadyButton();
         }else{
-            this.view.resetView();
+            this.gameView.resetView();
         }
+    }
+
+    // Met à jour l'interface SetupView
+    _updateSetupView(){
+        const state = this.gameModel.getState();
+        this.setupView.renderPlayers(state.players);
     }
 
     handleAddWord(word) {
-        const result = this.model.addWord(word);
-        if(result.success){
-            this.model.nextRound();
-            this._updateView();
-        }else{
-            this.view.disableInput();
-            this.view.displayMessage(result.message);
+        const success = this.gameModel.addWord(word);
+        if(!success){
+            window.alert("Impossible d'ajouter le mot");
         }
+        this._updateGameView();
     }
 
     handleRemoveLastWord(){
-        this.model.removeLastWord();
-        this._updateView();
+        this.gameModel.removeLastWord();
+        this._updateGameView();
+    }
+
+    handleAddPlayer(playerName) {
+        success = this.gameModel.addPlayer(playerName);
+        if(!success){
+            window.alert("Impossible d'ajouter le joueur");
+        }
+        this._updateSetupView();
     }
 
     handleReset(){
-        this.model.reset();
-        this._updateView();
+        this.gameModel.reset();
+        this._updateGameView();
     }
 
-    getFinalPhrase(){
-        return this.model.words;
+    handleReveal(){
+        return this.gameModel.words;
     }
 
     handlePlayerDisplay(currentPlayer){
         //si la partie est en cours, on affiche à qui le tour
-        if( this.model.isGameCompleted() ){
-            this.view.showFinishInfo();
+        if( this.gameModel.isGameCompleted() ){
+            this.gameView.showFinishInfo();
         }else{
-            this.view.displayPlayerName(currentPlayer);
+            this.gameView.displayPlayerName(currentPlayer);
         }
     }
 
