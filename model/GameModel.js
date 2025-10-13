@@ -17,10 +17,11 @@ export class GameModel  {
             currentRound: this.rounds[this.roundIndex],
             currentPlayer: this.players[this.playerIndex],
             previousPlayer: this.players[(this.playerIndex - 1) || 0],
+            progress: ((this.roundIndex * this.players.length + this.playerIndex) / (this.rounds.length * this.players.length)) * 100,
             currentRoundIndex: this.roundIndex,
             maxWords: this.maxWords,
             wordCount: this.words.length,
-            isCompleted: this.isGameCompleted()
+            isCompleted: this.isGameCompleted(),
         }
     }
 

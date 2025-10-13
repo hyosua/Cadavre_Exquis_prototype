@@ -50,7 +50,7 @@ export class Word{
             li.append(delBtn);
         }
 
-        li.append(wordType);
+        // li.append(wordType);
 
         return li;
     }

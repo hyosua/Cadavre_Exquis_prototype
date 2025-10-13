@@ -22,7 +22,7 @@
           
         </ul>
         
-        <button id="start-game" class="startGame">Start Game</button>
+        <button id="start-game" class="startGame">Commencer</button>
         
         
       </div>
@@ -31,24 +31,34 @@
 
     <section id="gameview">
       <div class="gameContainer">
-        <!-- INPUT -->
-        <div class="input-container">
-          <p id="playerRound"><span class="playerName"></span><span id="yourTurn">, à ton tour!</span></p>
-          <h2 id="round" class="round">
-          </h2>
-          <div class="input-wrap">
-            <input type="text" id="input" />
-            <div class="word-count"></div>
-          </div>
-          <div class="commands">
+        <div class="round-progress">
+          <div class="round-wrap">
+            <div class="round-container">
+              <div class="round"></div>
+              <div class="word-count"></div>
+            </div>
             <button class="reset">Reset</button>
-            <button class="add">Add</button>
+          </div>
+          <div class="progress-bar">
+            <div class="progress" style="width: 50%;"></div>
           </div>
         </div>
-        
+        <!-- INPUT -->
+        <div class="input-container">
+          <div class="current-player">
+            <p id="playerRound"><span class="playerName"></span><span id="yourTurn">, à ton tour!</span></p>
+          </div>
+          <div class="input-wrap">
+            <input type="text" id="input" placeholder="Entrer un mot..." />
+          </div>
+          <div class="commands">
+            
+            <button class="add">Ajouter</button>
+          </div>
+        </div>
+
         <!-- DISPLAY -->
         <div id="display">
-          <h2>Phrase</h2>
           <ul id="list">
           </ul>
           <button class="readyBtn">Ready</button>

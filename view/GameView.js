@@ -21,9 +21,10 @@ import { GameController } from "../controller/GameController.js";
             displayPanel : document.getElementById('display'),
             wordInput : document.getElementById('input'),
             ulWordlist : document.getElementById('list'),
+            progressDiv: document.querySelector('.progress'),
             errorDiv : document.querySelector('.error'),
             countDiv : document.querySelector('.word-count'),
-            round : document.getElementById('round'),
+            round : document.querySelector('.round'),
             playerRound : document.getElementById('playerRound'),
             yourTurn : document.getElementById('yourTurn'),
             playerName : document.querySelector('.playerName'),
@@ -45,6 +46,9 @@ import { GameController } from "../controller/GameController.js";
         this.elements.ulWordlist.replaceChildren();
     }
 
+    showDisplayContainer(){
+        this.elements.displayPanel.style.opacity = '100%';
+    }
 
     displayWord(word, type, player, index, totalWords) {
         console.log(word, type, player);
@@ -70,8 +74,12 @@ import { GameController } from "../controller/GameController.js";
     }
 
     displayWordcount(count, max){
-        this.elements.countDiv.textContent = `${count}/${max}`;
-        this.elements.countDiv.style.color = count === max ? 'red' : 'green'; 
+        this.elements.countDiv.textContent = `Round: ${count} / ${max}`;
+        this.elements.countDiv.style.color = count === max ? 'var(--error)' : 'var(--accent)'; 
+    }
+
+    displayProgress(progress){
+        this.elements.progressDiv.style.width = `${progress}%`;
     }
 
     displayPlayerName(playerObj){
@@ -153,6 +161,10 @@ import { GameController } from "../controller/GameController.js";
         this._onRevealCallback = callback;
     }
 
+    onDeleteWord(callback){
+        this._onDeleteWordCallback = callback;
+    }
+
     handleAddWord(){
         const word = this.elements.wordInput.value.trim();
         const inputField = this.elements.wordInput;
@@ -175,7 +187,9 @@ import { GameController } from "../controller/GameController.js";
     }
 
     handleRemoveLastWord(){
-        this.controller.handleRemoveLastWord();
+        if(this._onDeleteWordCallback){
+            this._onDeleteWordCallback();
+        }
     }
 
     handleReset(){

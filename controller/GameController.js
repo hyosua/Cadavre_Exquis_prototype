@@ -43,6 +43,7 @@ export class GameController {
         this.gameView.onAddWord((word) => this.handleAddWord(word));
         this.gameView.onReset(() => this.handleReset());
         this.gameView.onReveal(() => this.handleReveal());
+        this.gameView.onDeleteWord(() => this.handleRemoveLastWord());
         // this.gameView.onBackToSetup(() => this.backToSetup());
     }
 
@@ -52,6 +53,7 @@ export class GameController {
         const state = this.gameModel.getState();
         console.log("state:",state)
         this.gameView.displayWordcount(state.wordCount, state.maxWords);
+        this.gameView.displayProgress(state.progress);
 
         // Afficher Le type de mot à entrer et à qui le tour
         this.gameView.displayRoundType(state.currentRound);
@@ -59,6 +61,7 @@ export class GameController {
         
         //Afficher les mots
         if(state.wordCount>0){
+            this.gameView.showDisplayContainer();
             state.words.forEach((wordObj,index) => {
                 this.gameView.displayWord(
                     wordObj.word, 
