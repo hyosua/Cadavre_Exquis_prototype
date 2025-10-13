@@ -5,6 +5,7 @@ export class GameModel  {
         this.words = [];
         this.players = config.players || [];
         this.roundIndex = 0;
+        this.playerIndex = 0;
         this.rounds = config.rounds;
         this.maxWords = this.rounds.length;
     }
@@ -14,8 +15,8 @@ export class GameModel  {
         return {
             words: [...this.words],
             currentRound: this.rounds[this.roundIndex],
-            currentPlayer: this.players[this.roundIndex],
-            previousPlayer: this.players[(this.roundIndex - 1) || 0],
+            currentPlayer: this.players[this.playerIndex],
+            previousPlayer: this.players[(this.playerIndex - 1) || 0],
             currentRoundIndex: this.roundIndex,
             maxWords: this.maxWords,
             wordCount: this.words.length,
@@ -36,7 +37,7 @@ export class GameModel  {
         const wordObj = {
             word: word.trim(),
             type: this.rounds[this.roundIndex],
-            player: this.players[this.roundIndex],
+            player: this.players[this.playerIndex],
         }
 
         this.words.push(wordObj)
@@ -60,6 +61,7 @@ export class GameModel  {
     nextRound(){
         if(this.roundIndex < this.rounds.length){
             this.roundIndex++;
+            this.playerIndex = (this.playerIndex + 1) % this.players.length;
         }
     }
 

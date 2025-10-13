@@ -1,64 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kadavexki</title>
-</head>
-<body>
-  <h1>Cadavre Exquis</h1>
-  <section id="setupview">
-    <div class="setupContainer">
-      <div class="addPlayer-wrap">
-        <label>
-          Joueur
-        <input type="text" class="playerInput" id="playerInput"/>
-        </label>
-        <button id="add-player" class="addPlayer">Add</button>
-      </div>
-
-      <ul id="playerList">
-        
-      </ul>
-      
-      <button id="start-game" class="startGame">Start</button>
-      
-      
-    </div>
-    
-  </section>
-
-  <section id="gameview">
-    <div class="gameContainer">
-      <!-- INPUT -->
-      <div class="input-container">
-        <p id="playerRound"><span class="playerName"></span><span id="yourTurn">, à ton tour!</span></p>
-        <h2 id="round" class="round">
-        </h2>
-        <div class="input-wrap">
-          <input type="text" id="input" />
-          <div class="word-count"></div>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="styles.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Kadavexki</title>
+  </head>
+  <body>
+    <h1>Cadavre Exquis</h1>
+    <section id="setupview">
+      <div class="setupContainer">
+        <div class="addPlayer-wrap">
+          <label>
+            Joueur
+          <input type="text" class="playerInput" id="playerInput"/>
+          </label>
+          <button id="add-player" class="addPlayer">Add</button>
         </div>
-        <div class="commands">
-          <button class="reset">Reset</button>
-          <button class="add">Add</button>
-        </div>
-      </div>
-      
-      <!-- DISPLAY -->
-      <div id="display">
-        <h2>Phrase</h2>
-        <ul id="list">
+
+        <ul id="playerList">
+          
         </ul>
-        <div class="error"></div>
-        <button class="readyBtn">Ready</button>
+        
+        <button id="start-game" class="startGame">Start Game</button>
+        
+        
       </div>
-    </div>
-  
-  </section>
+      
+    </section>
+
+    <section id="gameview">
+      <div class="gameContainer">
+        <!-- INPUT -->
+        <div class="input-container">
+          <p id="playerRound"><span class="playerName"></span><span id="yourTurn">, à ton tour!</span></p>
+          <h2 id="round" class="round">
+          </h2>
+          <div class="input-wrap">
+            <input type="text" id="input" />
+            <div class="word-count"></div>
+          </div>
+          <div class="commands">
+            <button class="reset">Reset</button>
+            <button class="add">Add</button>
+          </div>
+        </div>
+        
+        <!-- DISPLAY -->
+        <div id="display">
+          <h2>Phrase</h2>
+          <ul id="list">
+          </ul>
+          <button class="readyBtn">Ready</button>
+          <div class="error"></div>
+        </div>
+      </div>
+    
+    </section>
 
 
-    <script type="module" src="index.js"></script>
-</body>
-</html>
+      <script type="module" src="index.js"></script>
+  </body>
+  </html>

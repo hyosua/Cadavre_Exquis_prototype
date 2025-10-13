@@ -19,6 +19,12 @@ import { GameController } from "../controller/GameController.js";
  
     _bindEvents(){
         this.addPlayer.addEventListener('click', () => this.handleAddPlayer());
+        this.playerInput.addEventListener('keydown', (e) => {
+            if(e.key === 'Enter'){
+                e.preventDefault();
+                this.handleAddPlayer();
+            }
+        })
     }
 
     show(){
@@ -57,7 +63,6 @@ import { GameController } from "../controller/GameController.js";
 
     handleAddPlayer(){
         const playerName = this.playerInput.value.trim();
-        console.log("SetupView: handleAddPlayer: player", playerName);
         if(!playerName || playerName == ''){
             return
         }
@@ -70,16 +75,22 @@ import { GameController } from "../controller/GameController.js";
         this.players.push(player);
         this.renderPlayers(this.players);
         this.playerInput.value = '';
+
+        if(this.unusedColors.length == 0){
+            this.playerInput.disabled = true;
+            this.addPlayer.disabled = true;
+        }
     }
 
     assignColor(playerName){
 
-        const color = this.unusedColors.pop()
-
         if(this.unusedColors.length == 0){
             alert("Nombre de joueurs maximum atteint")
+            this.playerInput.value = '';
             return false;
         }
+
+        const color = this.unusedColors.pop()
 
         const player = {
             username: playerName,

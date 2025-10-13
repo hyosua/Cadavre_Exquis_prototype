@@ -190,7 +190,8 @@ import { GameController } from "../controller/GameController.js";
 
         if(this._onRevealCallback){
             const phrase = this._onRevealCallback();
+            this.displayFinalPhrase(phrase);
         }
-        this.displayFinalPhrase(phrase);
+        
     }
 }
