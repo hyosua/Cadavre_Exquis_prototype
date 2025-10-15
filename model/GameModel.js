@@ -12,11 +12,16 @@ export class GameModel  {
     
 
     getState(){
+        const n = this.rounds.length;
+        const playerIdx = n % this.players.length
+        const prevIdx = (playerIdx - 1 + this.players.length) % this.players.length;
+
         return {
+            playerIndex: playerIdx,
             words: [...this.words],
             currentRound: this.rounds[this.roundIndex],
-            currentPlayer: this.players[this.playerIndex],
-            previousPlayer: this.players[(this.playerIndex - 1) || 0],
+            currentPlayer: this.players[playerIdx],
+            previousPlayer: this.players[prevIdx],
             progress: ((this.roundIndex * this.players.length + this.playerIndex) / (this.rounds.length * this.players.length)) * 100,
             currentRoundIndex: this.roundIndex,
             maxWords: this.maxWords,
@@ -31,25 +36,31 @@ export class GameModel  {
 
     addWord(word) {
 
-        if(this.isGameCompleted()){
-            return false;
-        }
+        if(this.isGameCompleted())return false
+        if(!word) return false
+
+        const n = this.words.length
+        const playerIdx = n % this.players.length
 
         const wordObj = {
             word: word.trim(),
-            type: this.rounds[this.roundIndex],
-            player: this.players[this.playerIndex],
+            type: this.rounds[n],
+            player: this.players[playerIdx],
         }
-
+        
         this.words.push(wordObj)
-        this.nextRound();
-
+        this.roundIndex = this.words.length
+        this.playerIndex = this.words.length % this.players.length
         return true;
     }
     
     removeLastWord() {
+        if(!this.words.length) return false
         this.words.pop();
-        this.roundIndex--;
+        
+        this.roundIndex = this.words.length
+        this.playerIndex = this.words.length % this.players.length
+        return true
     }
 
     reset() {
