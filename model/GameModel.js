@@ -55,6 +55,7 @@ export class GameModel  {
     reset() {
         this.roundIndex = 0;
         this.words = [];
+        this.playerIndex = 0;
     }
 
     

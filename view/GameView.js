@@ -50,8 +50,19 @@ import { GameController } from "../controller/GameController.js";
         this.elements.displayPanel.style.opacity = '100%';
     }
 
+    hideDisplayContainer(){
+        this.elements.displayPanel.style.opacity = '0%';
+    }
+
+    hideInput(){
+        this.elements.inputContainer.style.display = 'none'
+    }
+
+    showInput(){
+        this.elements.inputContainer.style.display = 'block'
+    }
+
     displayWord(word, type, player, index, totalWords) {
-        console.log(word, type, player);
         const wordObj = new Word(
             word, 
             type, 
@@ -102,7 +113,8 @@ import { GameController } from "../controller/GameController.js";
     }
 
     displayRoundType(currentRound){
-        this.elements.round.textContent = currentRound;        
+        this.elements.round.textContent = currentRound;
+        this.elements.wordInput.placeholder = `Entrer un${currentRound.toLowerCase() === 'circonstance' ? "e" : ""} ${currentRound}`      
     }
 
     displayFinalPhrase(phrase){
@@ -138,6 +150,8 @@ import { GameController } from "../controller/GameController.js";
     enableInput(){
         this.elements.wordInput.disabled = false;
         this.elements.addBtn.disabled = false;
+        this.elements.addBtn.style.backgroundColor = 'var(--neutral)';
+
     }
 
     resetView(){
