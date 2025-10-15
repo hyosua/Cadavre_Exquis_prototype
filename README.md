@@ -36,24 +36,6 @@ Réinitialisation complète du jeu
 
 Interface simple et fluide en JavaScript vanilla
 
-🧠 Architecture MVC
-KADAVEXKI/
-├── config/
-│   └── constants.js
-├── controller/
-│   └── GameController.js
-├── model/
-│   └── GameModel.js
-├── view/
-│   ├── components/
-│   │   └── Word.js
-│   ├── GameView.js
-│   └── SetupView.js
-├── index.html
-├── index.js
-├── styles.css
-└── .gitignore
-
 Structure logique :
 
 Model : gère l’état du jeu (joueurs, mots, phases).
