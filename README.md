@@ -54,7 +54,45 @@ CSS3
 
 JavaScript (ES6)
 
+Vite
+
 Architecture MVC
+
+## 🚀 Installation et lancement
+
+### Prérequis
+
+Node.js (version 16 ou supérieure)
+
+npm ou yarn
+
+### Installation
+
+```bash
+# Cloner le repository
+git clone [url-de-votre-repo]
+
+# Aller dans le dossier du projet
+cd kadavexki
+
+# Installer les dépendances
+npm install
+```
+
+### Lancement
+
+```bash
+# Démarrer le serveur de développement
+npm run dev
+
+# Construire pour la production
+npm run build
+
+# Prévisualiser la version de production
+npm run preview
+```
+
+Le jeu sera accessible sur `http://localhost:5173`
 
 🚧 Améliorations possibles
 
