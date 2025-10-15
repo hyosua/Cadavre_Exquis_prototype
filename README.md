@@ -70,7 +70,7 @@ npm ou yarn
 
 ```bash
 # Cloner le repository
-git clone [url-de-votre-repo]
+git clone github.com/hyosua/Cadavre_Exquis_prototype
 
 # Aller dans le dossier du projet
 cd kadavexki
