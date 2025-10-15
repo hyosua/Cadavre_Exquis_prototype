@@ -71,12 +71,5 @@ export class GameModel  {
 
     
 
-    nextRound(){
-        if(this.roundIndex < this.rounds.length){
-            this.roundIndex++;
-            this.playerIndex = (this.playerIndex + 1) % this.players.length;
-        }
-    }
-
 }
 
