@@ -12,7 +12,7 @@ export class GameModel  {
     
 
     getState(){
-        const n = this.rounds.length;
+        const n = this.words.length;
         const playerIdx = n % this.players.length
         const prevIdx = (playerIdx - 1 + this.players.length) % this.players.length;
 
