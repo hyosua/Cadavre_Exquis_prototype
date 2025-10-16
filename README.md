@@ -1,6 +1,7 @@
 🧩 Cadavre Exquis (Prototype)
 
 Un prototype de jeu du cadavre exquis développé en HTML, CSS et JavaScript vanilla, organisé selon une architecture MVC pour s’entraîner à structurer une application front-end sans backend.
+
 Une démo du projet peut être visible ici: https://hyosua-cadavre-exqui-nc9f.bolt.host/
 
 🎯 Objectif du projet
