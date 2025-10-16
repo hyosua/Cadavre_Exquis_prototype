@@ -1,0 +1,74 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Kadavexki</title>
+    <script type="module" crossorigin src="/assets/index-XW9blFNQ.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-H4pwTBTn.css">
+  </head>
+  <body>
+    <h1>Cadavre Exquis</h1>
+    <section id="setupview">
+      <div class="setupContainer">
+        <div class="addPlayer-wrap">
+          <label>
+            Joueur
+          <input type="text" class="playerInput" id="playerInput"/>
+          </label>
+          <button id="add-player" class="addPlayer">Add</button>
+        </div>
+
+        <ul id="playerList">
+          
+        </ul>
+        
+        <button id="start-game" class="startGame">Commencer</button>
+        
+        
+      </div>
+      
+    </section>
+
+    <section id="gameview">
+      <div class="gameContainer">
+        <div class="round-progress">
+          <div class="round-wrap">
+            <div class="round-container">
+              <div class="word-count"></div>
+              <div class="round"></div>
+            </div>
+            <button class="reset">Reset</button>
+          </div>
+          <div class="progress-bar">
+            <div class="progress" style="width: 50%;"></div>
+          </div>
+        </div>
+        <!-- INPUT -->
+        <div class="input-container">
+          <div class="current-player">
+            <p id="playerRound"><span class="playerName"></span><span id="yourTurn">, à ton tour!</span></p>
+          </div>
+          <div class="input-wrap">
+            <input type="text" id="input" placeholder="Entrer un mot..." />
+          </div>
+          <div class="commands">
+            
+            <button class="add">Ajouter</button>
+          </div>
+        </div>
+
+        <!-- DISPLAY -->
+        <div id="display">
+          <ul id="list">
+          </ul>
+          <button class="readyBtn">Ready</button>
+          <div class="error"></div>
+        </div>
+      </div>
+    
+    </section>
+
+
+  </body>
+  </html>
